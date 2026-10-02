@@ -1,9 +1,11 @@
 package mn.edu.must.sqat;
-//90+ A, 80-90 B, 70-80 C, 60-70 D, <60 F
+
+//90+ A, 80-89 B, 70-79 C, 60-69 D, <60 F
 //score нь 0-100 хязгаараас гарвал IllegalArgumentException шиднэ
 public class GradeCalculator {
-    public String calculateGrade(double score) {
-        if (score < 0 || score > 100) {
+
+    public String letterGrade(double score) {
+        if (Double.isNaN(score) || score < 0 || score > 100) {
             throw new IllegalArgumentException("Score must be between 0 and 100");
         }
         if (score >= 90) {
@@ -21,18 +23,19 @@ public class GradeCalculator {
 
     // Ирц(10), лаб+бие даалт(40), сорил1(10), сорил2(10), шалгалт(30)-ийн
     // оноонуудаас нийлбэр оноог тооцно. Аль нэг нь СӨРӨГ эсвэл дээд хязгаараасаа хэтэрсэн бол IllegalArgumentException шиднэ.
-    public double totalScore(double att, double lab, double quiz1, double quiz2, double exam) { 
-        checkRange("Irts: " + att, 10);
-        checkRange("Lab: " + lab, 40);
-        checkRange("Quiz1: " + quiz1, 10);
-        checkRange("Quiz2: " + quiz2, 10);
-        checkRange("Exam: " + exam, 30);
+    public double totalScore(double att, double lab, double quiz1, double quiz2, double exam) {
+        checkRange("Irts", att, 10);
+        checkRange("Lab", lab, 40);
+        checkRange("Quiz1", quiz1, 10);
+        checkRange("Quiz2", quiz2, 10);
+        checkRange("Exam", exam, 30);
         return att + lab + quiz1 + quiz2 + exam;
     }
 
-    private void checkRange(double score, double max) {
-        if (score < 0 || score > max) {
-            throw new IllegalArgumentException("Score must be between 0 and " + max);
+    private void checkRange(String name, double value, double max) {
+        if (Double.isNaN(value) || value < 0 || value > max) {
+            throw new IllegalArgumentException(
+                    name + " must be between 0 and " + max + ", but was: " + value);
         }
     }
 }
