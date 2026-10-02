@@ -3,6 +3,8 @@ package mn.edu.must.sqat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class GradeCalculatorTest {
     @Test
@@ -74,5 +76,25 @@ public class GradeCalculatorTest {
                 () -> calc.totalScore(-5, 40, 10, 10, 30));
     }
 
+
+    @ParameterizedTest(name = "letterGrade({0}) = {1}")
+    @DisplayName("letterGrade: хязгаарын утгуудын хүснэгт")
+    @CsvSource({"95,A", "90,A", "89.99,B", "80,B", "70,C", "60,D", "59.99,F", "0,F"})
+    void letterGradeBoundaries(double score, String expected) {
+        assertEquals(expected, new GradeCalculator().letterGrade(score));
+    }
+ 
+    @ParameterizedTest(name = "totalScore({0},{1},{2},{3},{4}) = {5}")
+    @DisplayName("totalScore: олон оролтын нийлбэр")
+    @CsvSource({
+            "10,40,10,10,30,100",
+            "0,0,0,0,0,0",
+            "5,20,5,5,15,50",
+            "9.5,39.5,9.5,9.5,29.5,97.5"
+    })
+    void totalScoreSums(double att, double lab, double q1, double q2, double exam, double expected) {
+        double total = new GradeCalculator().totalScore(att, lab, q1, q2, exam);
+        assertEquals(expected, total, 0.001);
+    }
 
 }
