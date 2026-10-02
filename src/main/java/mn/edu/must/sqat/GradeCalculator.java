@@ -8,7 +8,7 @@ public class GradeCalculator {
         if (Double.isNaN(score) || score < 0 || score > 100) {
             throw new IllegalArgumentException("Score must be between 0 and 100");
         }
-        if (score >= 90) {
+        if (score > 90) {
             return "A";
         } else if (score >= 80) {
             return "B";
